@@ -1,5 +1,4 @@
 import { Card } from './Card';
-import { Deck as dck } from 'card-deck';
 
 const NAMES_36 = [
                     {name: '6', rate: 5}, 
@@ -29,7 +28,7 @@ const NAMES_52 = [
                     {name: 'A', rate: 13}
                  ];
 
-const FACES = ['Hearts','Diamonds','Spades','Clubs'];
+const FACES = [ 0,1,2,3];
 
 
 
@@ -74,11 +73,17 @@ export class Deck {
         }
         this.cards = copy;
     }
-    get(){
 
+    get(num: number): Array<Card>{
+        let cards = [];
+        for(let i=0; i<num; i++){
+            cards.push(this.cards[i]);
+            this.cards.splice(i,1);
+        }
+        return cards;
     }
-    put(){
-
+    put(card: Card): void{
+        this.cards.push(card);
     }
-
+ 
 }

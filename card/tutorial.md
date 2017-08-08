@@ -177,6 +177,49 @@
         this.cards = copy;
     }
     
+## тест для извлечения и добавления карт в колоду.
+
+
+      it('Test geting and puting cards', () => { 
+       
+        let d = new Deck(36);
+
+        let cardset = d.get(6);
+        expect(cardset.length).toEqual(6);
+        expect(d.cards.length).toEqual(30);
+
+        d.put(cardset[0]);
+        expect(d.cards.length).toEqual(31);
+        
+
+      });
+      
+## Методы
+
+    get(num: number): Array<Card>{
+        let cards = [];
+        for(let i=0; i<num; i++){
+            cards.push(this.cards[i]);
+            this.cards.splice(i,1);
+        }
+        return cards;
+    }
+    
+    put(card: Card): void{
+        this.cards.push(card);
+    }
+    
+    
+## Отобразим карты.
+
+https://github.com/selfthinker/CSS-Playing-Cards
+
+Подцепим стилевик    
+    
+
+
+  
+      
       
       
     

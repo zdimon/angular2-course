@@ -22,7 +22,6 @@
         "styles.css"
       ],
       "scripts": [
-        "../node_modules/card-deck/deck.js",
         "../myfunc.js"
       ],
       "environmentSource": "environments/environment.ts",

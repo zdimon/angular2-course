@@ -28,7 +28,7 @@ describe('GameComponent', () => {
 
   it('Test Card class', () => {
     let name = 'test card';
-    let face = 'spade';
+    let face = 0;
     let c = new Card(name,face, 1);
     expect(c.name).toEqual(name);
     expect(c.face).toEqual(face);
@@ -53,6 +53,20 @@ describe('GameComponent', () => {
     d.shuffle();
     let next = d.cards[0];
     expect(first).not.toEqual(next);
+
+  });
+
+  it('Test geting and puting cards', () => { 
+   
+    let d = new Deck(36);
+
+    let cardset = d.get(6);
+    expect(cardset.length).toEqual(6);
+    expect(d.cards.length).toEqual(30);
+
+    d.put(cardset[0]);
+    expect(d.cards.length).toEqual(31);
+    
 
   });
 
