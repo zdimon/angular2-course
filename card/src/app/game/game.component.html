@@ -1,8 +1,8 @@
 
-<button (click)='getCards(6)'> Get 6 cards </button>
+<button (click)='getCards(6)' id='deal-button' class="btn"> Get 6 cards </button>
 
 <div>
-  <img *ngFor="let c of current_set" src="{{c.image}}" />
+  <img class="card" *ngFor="let c of current_set" src="{{c.image}}" />
 </div>
 
 <!--

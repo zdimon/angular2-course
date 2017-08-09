@@ -214,8 +214,22 @@
 
 https://github.com/selfthinker/CSS-Playing-Cards
 
-Подцепим стилевик    
+Подцепим стилевик
+
     
+    <link rel="stylesheet" type="text/css" href="assets/css/cards.css" media="screen" />
+    
+e2e тест на раздачу.
+
+      it('Кнопка раздачи', () => {
+        page.navigateTo();
+        let but = page.getDealButton();
+        expect(but.getText()).toEqual('Get 6 cards');
+        but.click();
+        expect(element.all(by.css('img')).count()).toEqual(6); 
+      });
+
+
 
 
   
