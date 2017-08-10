@@ -28,7 +28,7 @@ describe('GameComponent', () => {
 
   it('Test Card class', () => {
     let name = 'test card';
-    let face = 0;
+    let face = 'H';
     let c = new Card(name,face, 1);
     expect(c.name).toEqual(name);
     expect(c.face).toEqual(face);

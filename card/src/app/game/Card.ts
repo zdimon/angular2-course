@@ -1,15 +1,65 @@
 export class Card{
     name: string;
-    face: number;
+    face: string;
+    faceCSS: string;
+    faceName: string;
     rate: number;
     image: string;
-    constructor(name: string, face: number, rate: number){
+    isHidden: boolean;
+    constructor(name: string, face: string, rate: number){
+        this.isHidden = false;
         this.name = name;
         this.face = face;
         this.rate = rate;
         this.image = 'assets/images/'+this.face+'_'+this.rate+'.svg'
+        
+        switch (this.face) {
+            case 'H': {
+                this.faceCSS = "&hearts;";
+                this.faceName = "hearts";
+                break;
+            }
+            case 'D': {
+                this.faceCSS = '&diams;';
+                this.faceName = "diams";
+                break;
+            }
+            case 'C': {
+                this.faceCSS = '&clubs;';
+                this.faceName = "clubs";
+                break;
+            }
+            case 'S': {
+                this.faceCSS = '&spades;';
+                this.faceName = "spades";
+                break;
+            }
+            default: {
+                this.faceCSS =  ''
+                this.faceName = "";
+                break;
+            }
+        }
     }
     public show(){
         return this.image;      
-    } 
+    }
+ 
+    public getRank(){
+        if(this.rate<=10) {
+            return this.rate;
+        } else if (this.rate==11) {
+            return 'J'
+        } else if(this.rate == 12) {
+            return 'Q'
+        } if (this.rate==13) {
+            return 'K'
+        } else if(this.rate == 14){
+            return 'A'
+        }    
+    }  
+    
+    
+   
+
 } 

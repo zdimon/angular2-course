@@ -231,9 +231,196 @@ e2e тест на раздачу.
 
 
 
+Раздаем карты в модели.
 
+    get(num: number): Array<Card>{
+        let cards = [];
+        for(let i=0; i<num; i++){
+            cards.push(this.cards[i]);
+            this.cards.splice(i,1);
+        }
+        return cards;
+    }
+    
+Кладем карту.
+
+    put(card: Card): void{
+        this.cards.push(card);
+    }
   
       
+Создадим Компонент карты.
+
+
+    import { Component, OnInit, Input, Output } from '@angular/core';
+    import { Card } from './Card';
+
+
+    @Component({
+        selector: 'card',
+        template: `<div class="card rank-{{card.getRank()}} {{card.faceName }}">
+                    <span class="rank">{{card.getRank()}}</span>
+                    <span class="suit" [innerHTML]="card.getFaceCSS()"></span>
+                    </div>`
+    })
+    export class CardComponent implements OnInit {
+        @Input() card: Card
+        constructor() { }
+
+        ngOnInit() { 
+
+        }
+
+    }
+    
+Выведем его в шаблоне.
+
+
+    <div>
+      <card *ngFor="let c of current_set" [card]='c'></card>
+    </div>
       
       
+### Переворот карты.
+
+- добавим флаг перевернутости в модель.
+
+      
+      export class Card{
+        ...
+        isHidden: boolean;
+        constructor(name: string, face: string, rate: number){
+            this.isHidden = true;    
+          
+   
+   
+- изменим шаблон
+
+    @Component({
+        selector: 'card',
+        template: ` <div class="card back" *ngIf="card.isHidden">*</div>
+                    <div *ngIf="!card.isHidden" class="card rank-{{card.getRank()}} {{card.faceName }}">
+                    <span class="rank">{{card.getRank()}}</span>
+                    <span class="suit" [innerHTML]="card.faceCSS"></span>
+                    {{ card.isHidden }}
+                    </div>`
+    })          
+      
+- добавим обработчик события.
+
+
+    export class CardComponent implements OnInit {
+        ...
+
+        @HostListener('click', ['$event.target']) flipOver(crd){
+            this.card.isHidden = !this.card.isHidden;
+        }      
+          
+          
+          
+## Выбор карты.
+
+Будем передавать выбранную карту в верхний компонент game из компонента карты.
+Для этого используем генератор событий, которы экспортируется декоратором @Output().
+
+
+    import { ... Output, EventEmitter } from '@angular/core';
+
+    export class CardComponent implements OnInit {
+        
+        @Output() eventClick = new EventEmitter();
+          
+          
+        @HostListener('click', ['$event.target']) flipOver(crd){
+            this.eventClick.emit(this.card);
+        }          
+          
+          
+- теперь можно включить событие в шаблон родителя.
+
+    
+    <div>
+      <card *ngFor="let c of current_set" [card]='c' (eventClick) = "selectCard(c)"></card>
+    </div>          
+              
+              
+- и добавить обработчик в родительский компонент.
+
+
+    export class GameComponent implements OnInit {
+      ...
+
+      selectCard(card: Card){
+        this.cards_selected.push(card);
+      }  
+                  
+## Отмена выбранной карты.
+
+- опираемся на ту же ф-цию.
+
+      selectCard(card: Card){
+        if(this._is_exist(this.cards_selected,card)){
+          this._delete(this.cards_selected,card)
+        } else {
+          this.cards_selected.push(card);
+        }
+        
+      }  
+
+      _delete(ar,card){
+         this.cards_selected.forEach(v=>{   
+            if(v.name === card.name && v.face === card.face)
+              {
+                this.cards_selected.splice(this.cards_selected.indexOf(v),1);
+              }
+         });
+      }  
+
+      _is_exist(ar,card){
+         let fl = false;
+         this.cards_selected.forEach(v=>{   
+            if(v.name === card.name && v.face === card.face)
+              {
+                fl = true;
+              }
+         });
+        return fl;
+      }
+                  
+    
+## Замена выбранных карт.
+
+- функция замены
+
+    changeCards(card: Card){
+    this.cards_selected.forEach(v=>{   
+      this.current_set.forEach(vv=>{   
+        if(vv.name === v.name && vv.face === v.face)
+          {
+            let nc = this.current_deck.get(1);
+            this.current_set[this.current_set.indexOf(vv)] = nc[0];
+          }
+      });        
+    });
+    this.cards_selected = [];
+    }  
+  
+- шаблон
+  
+      
+    <button (click)='changeCards()'  class="btn"> Change </button>  
+    
+Активирование кнопки замены только при наличии выбранных карт.
+
+- функция проверки в компоненте.    
+    
+    isValidSelection(): boolean{
+        if (this.cards_selected.length > 0) return true;
+        return false; 
+    }    
+    
+- доработка шаблона
+
+   <button [disabled]="!isValidSelection()" (click)='changeCards()'  class="btn"> Change </button>
+    
     

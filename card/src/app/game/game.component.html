@@ -1,9 +1,31 @@
 
-<button (click)='getCards(6)' id='deal-button' class="btn"> Get 6 cards </button>
+<div>
+  <button (click)='getCards(6)' id='deal-button' class="btn"> Get 6 cards </button>
+  <button (click)='shuffle(6)' class="btn"> Sheffle </button>
+</div>
+
+<H2>deck-{{ current_deck.cards.length }}</H2>
+
+<H2>BET : {{ bet }}</H2>
+
+<H2>PLAYING BET : {{ play_bet }}</H2>
+<H2>Account : {{ account }}</H2>
 
 <div>
-  <img class="card" *ngFor="let c of current_set" src="{{c.image}}" />
+  <card *ngFor="let c of current_set" [card]='c' (eventClick) = "selectCard(c)"></card>
 </div>
+
+
+
+<div>
+  <button [disabled]="!isValidSelection()" (click)='changeCards()'  class="btn"> Change </button>
+  <button [disabled]="!isStartPossible()" (click)='start()'  class="btn"> Start </button>
+
+  <button [disabled]="!isBetUpPossible" (click)='betUp()'  class="btn"> Bet up </button>
+  <button [disabled]="!isBetDownPossible" (click)='betDown()'  class="btn"> Bet down </button>
+
+</div>
+
 
 <!--
 <div>

@@ -28,7 +28,7 @@ const NAMES_52 = [
                     {name: 'A', rate: 13}
                  ];
 
-const FACES = [ 0,1,2,3];
+const FACES = [ 'S','D','H', 'C'];
 
 
 
@@ -76,9 +76,10 @@ export class Deck {
 
     get(num: number): Array<Card>{
         let cards = [];
+        if(this.cards.length == 0) return cards;
         for(let i=0; i<num; i++){
-            cards.push(this.cards[i]);
-            this.cards.splice(i,1);
+            cards.push(this.cards[0]);
+            this.cards.splice(0,1);
         }
         return cards;
     }
