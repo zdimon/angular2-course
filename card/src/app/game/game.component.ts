@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Deck } from './Deck'
 import { Card } from './Card'
 import { CardComponent } from './card.component';
+import { CardService } from './service';
+
 
 @Component({
   selector: 'app-game',
@@ -13,21 +15,24 @@ export class GameComponent implements OnInit {
   current_set: Array<Card>;
   cards_selected: Array<Card>;
   bet: number;
-  play_bet: number;
+  is_active_game: boolean;
   account: number;
   isBetUpPossible: boolean;
   isBetDownPossible: boolean;
+  win: number;
 
 
   constructor() { 
-     this.current_deck = new Deck(52);
+     
      this.current_set = [];
      this.cards_selected = [];
      this.bet = 0;
-     this.play_bet = 0;
+     this.win = 0;
+     this.is_active_game = false;
      this.account = 10;
      this.isBetUpPossible = true;
      this.isBetDownPossible = false;
+
   }
 
   ngOnInit() {
@@ -47,7 +52,7 @@ export class GameComponent implements OnInit {
     } else {
       this.cards_selected.push(card);
     }
-    console.log(this.cards_selected);
+    //console.log(this.cards_selected);
   }  
 
   _delete(ar,card){
@@ -81,22 +86,36 @@ export class GameComponent implements OnInit {
       });        
     });
     this.cards_selected = [];
+    this.win = CardService.evaluate(this.current_set, this.bet);
   }  
 
 
   start(): void{
+    this.is_active_game = true;
     this.isBetDownPossible = false;
     this.isBetUpPossible = false;
     this.cards_selected = [];
-    this.current_set = this.current_deck.get(6);
-    this.play_bet = this.bet;
-    this.bet = 0;
+    this.current_deck = new Deck(52);
+    this.current_deck.shuffle();
+    this.current_set = this.current_deck.get(5);
+    this.win = CardService.evaluate(this.current_set, this.bet);
+    this.account -= this.bet;
   } 
 
 
   isValidSelection(): boolean{
     if (this.cards_selected.length > 0) return true;
     return false; 
+  }
+
+  canTake(): boolean{
+    if (this.win > 0) return true;
+    return false; 
+  }
+
+  takeMoney(): void{
+    this.account += this.win;
+    this.win = 0;
   }
 
   isStartPossible(): boolean{
@@ -109,7 +128,6 @@ export class GameComponent implements OnInit {
     if (this.account>0) {
       this.isBetDownPossible = true;
       this.bet += 1;
-      this.account -= 1;
       if (this.account==0) this.isBetUpPossible = false;
     } else {
       this.isBetUpPossible = false;
@@ -119,7 +137,6 @@ export class GameComponent implements OnInit {
 
   betDown(): void{
     this.bet -= 1;
-    this.account += 1;
     if (this.bet > 0){
       this.isBetDownPossible = true;  
       this.isBetUpPossible = true;

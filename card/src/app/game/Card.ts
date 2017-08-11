@@ -6,13 +6,15 @@ export class Card{
     rate: number;
     image: string;
     isHidden: boolean;
+    id: string;
+
     constructor(name: string, face: string, rate: number){
         this.isHidden = false;
         this.name = name;
         this.face = face;
         this.rate = rate;
         this.image = 'assets/images/'+this.face+'_'+this.rate+'.svg'
-        
+        this.id = `#{this.face}-#{this.name}`
         switch (this.face) {
             case 'H': {
                 this.faceCSS = "&hearts;";
@@ -47,12 +49,12 @@ export class Card{
  
     public getRank(){
         if(this.rate<=10) {
-            return this.rate;
+            return this.name;
         } else if (this.rate==11) {
             return 'J'
         } else if(this.rate == 12) {
             return 'Q'
-        } if (this.rate==13) {
+        } else if (this.rate==13) {
             return 'K'
         } else if(this.rate == 14){
             return 'A'

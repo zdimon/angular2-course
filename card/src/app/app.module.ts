@@ -4,6 +4,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { RemoveQuotes } from './game/game.pipes';
+import { CardService } from './game/service';
+
 
 
 
@@ -17,7 +19,7 @@ import { RemoveQuotes } from './game/game.pipes';
   imports: [
     BrowserModule
   ],
-  providers: [],
+  providers: [CardService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

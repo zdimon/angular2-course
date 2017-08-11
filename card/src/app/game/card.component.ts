@@ -5,8 +5,8 @@ import { Card } from './Card';
 @Component({
     selector: 'card',
     template: ` <div class="card back" *ngIf="card.isHidden">*</div>
-                <div *ngIf="!card.isHidden" class="card rank-{{card.getRank()}} {{card.faceName }}">
-                <span class="rank">{{card.getRank()}}</span>
+                <div *ngIf="!card.isHidden" class="card rank-{{card.name}} {{card.faceName }}">
+                <span class="rank">{{card.name}}</span>
                 <span class="suit" [innerHTML]="card.faceCSS"></span>
                 </div>`
     
