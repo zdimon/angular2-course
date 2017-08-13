@@ -6,10 +6,12 @@ export class Card{
     rate: number;
     image: string;
     isHidden: boolean;
+    isHighlighted: boolean;
     id: string;
 
     constructor(name: string, face: string, rate: number){
         this.isHidden = false;
+        this.isHighlighted = false;
         this.name = name;
         this.face = face;
         this.rate = rate;

@@ -20,6 +20,8 @@ export class GameComponent implements OnInit {
   isBetUpPossible: boolean;
   isBetDownPossible: boolean;
   win: number;
+  mode: string;
+  win_set: any;
 
 
   constructor() { 
@@ -32,7 +34,8 @@ export class GameComponent implements OnInit {
      this.account = 10;
      this.isBetUpPossible = true;
      this.isBetDownPossible = false;
-
+     this.mode = 'roll'
+     this.win_set = [];
   }
 
   ngOnInit() {
@@ -47,11 +50,25 @@ export class GameComponent implements OnInit {
   }
 
   selectCard(card: Card){
-    if(this._is_exist(this.cards_selected,card)){
-      this._delete(this.cards_selected,card)
-    } else {
-      this.cards_selected.push(card);
+    if(this.mode==='roll'){
+      if(this._is_exist(this.cards_selected,card)){
+        this._delete(this.cards_selected,card)
+      } else {
+        this.cards_selected.push(card);
+      }
     }
+
+    if(this.mode==='double'){
+      console.log(card.rate+'-'+this.current_set[0].rate);
+      if(card.rate>this.current_set[0].rate){
+        this.win *= 2;
+      } else if(card.rate===this.current_set[0].rate){
+
+      }  else {
+        this.win = 0;
+        this.mode = 'roll';
+      }
+    }    
     //console.log(this.cards_selected);
   }  
 
@@ -86,11 +103,12 @@ export class GameComponent implements OnInit {
       });        
     });
     this.cards_selected = [];
-    this.win = CardService.evaluate(this.current_set, this.bet);
+    this.checkWin();
   }  
 
 
   start(): void{
+    this.mode = 'roll';
     this.is_active_game = true;
     this.isBetDownPossible = false;
     this.isBetUpPossible = false;
@@ -98,9 +116,29 @@ export class GameComponent implements OnInit {
     this.current_deck = new Deck(52);
     this.current_deck.shuffle();
     this.current_set = this.current_deck.get(5);
-    this.win = CardService.evaluate(this.current_set, this.bet);
+    this.checkWin();
     this.account -= this.bet;
   } 
+
+  checkWin(): void{
+    this.win_set = CardService.evaluate(this.current_set, this.bet);
+    this.win = this.win_set['win'];
+    this.highlightCards(this.win_set['active']);
+  }
+
+  highlightCards(cards: any[]){
+    
+    cards.forEach(element => {
+      if('two' in element){
+        this.current_set.forEach(e => {
+           if(e.name === element['two']){
+             e.isHighlighted = true;
+           }
+        });
+      }
+    });
+  }
+
 
 
   isValidSelection(): boolean{
@@ -136,19 +174,35 @@ export class GameComponent implements OnInit {
 
 
   betDown(): void{
-    this.bet -= 1;
-    if (this.bet > 0){
-      this.isBetDownPossible = true;  
-      this.isBetUpPossible = true;
-    } else {
-      this.isBetDownPossible = false; 
+      this.bet -= 1;
+      if (this.bet > 0){
+        this.isBetDownPossible = true;  
+        this.isBetUpPossible = true;
+      } else {
+        this.isBetDownPossible = false; 
+      }
     }
 
-      
+
+    doubleMode(): void{
+      this.mode = 'double';
+      this.current_deck = new Deck(52);
+      this.current_deck.shuffle();
+      this.current_set = this.current_deck.get(5);
+      this.current_set.forEach(c => {
+         if (this.current_set.indexOf(c)>0) {
+           c.isHidden = true;
+         }
+      })      
+    }
+
+    canDouble(): boolean{
+      if (this.win > 0) return true;
+      return false; 
+    }      
     
 
-  }
-
+ 
 
 
 }

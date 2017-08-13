@@ -6,11 +6,20 @@
 
 <H2>Account : {{ account }}</H2>
 
+<H2>Mode : {{ mode }}</H2>
+
 <div>
-  <card *ngFor="let c of current_set" [card]='c' (eventClick) = "selectCard(c)"></card>
+  <card [card]='current_set[0]' (eventClick) = "selectCard(current_set[0])" ></card>
+  <card [card]='current_set[1]' (eventClick) = "selectCard(current_set[1])" ></card>
+  <card [card]='current_set[2]' (eventClick) = "selectCard(current_set[2])" ></card>
+  <card [card]='current_set[3]' (eventClick) = "selectCard(current_set[3])" ></card>
+  <card [card]='current_set[4]' (eventClick) = "selectCard(current_set[4])" ></card>
 </div>
 
+<div style="clear: both"></div>
 
+
+<br />
 
 <div>
   <button [disabled]="!isValidSelection()" (click)='changeCards()'  class="btn"> Change </button>
@@ -20,6 +29,7 @@
   <button [disabled]="!isBetUpPossible && is_active_game" (click)='betUp()'  class="btn"> Bet up </button>
   <button [disabled]="!isBetDownPossible && is_active_game" (click)='betDown()'  class="btn"> Bet down </button>
   <button [disabled]="!canTake()" (click)='takeMoney()'  class="btn"> Take money </button>
+  <button *ngIf="canDouble()" (click)='doubleMode()'  class="btn"> Double </button>
 
 </div>
 

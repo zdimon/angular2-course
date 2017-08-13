@@ -1,0 +1,16 @@
+.card_cell {
+    border: 1px solid silver;
+    width: 64px;
+    height: 85px;
+    display: inline-block;
+    padding: 2px;
+    border-radius: 2px;
+}
+
+.isHighlighted .card{
+    background: yellow;
+}
+
+.playingCards .card .highlite {
+    border: 2px solid #33dd39 !important;
+}

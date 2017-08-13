@@ -56,6 +56,7 @@ export class CardService {
         //console.log(hand);
 
         let win: any = [];
+        let active: any = [];
         let doubles: any = {};
         NAMES_52.forEach(n=>{
             doubles[n.name] = 0;
@@ -68,14 +69,17 @@ export class CardService {
                 switch (doubles[k]){
                     case 4: {                     
                         win.push(CardService.countWin('four',bet))
+                        active.push({'four': k})
                         break;
                     }
                     case 3: {
                         win.push(CardService.countWin('three',bet))
+                        active.push({'three': k})
                         break;
                     }
                     case 2: {
                         win.push(CardService.countWin('pair',bet))
+                        active.push({'two': k})
                         break;
                     }
                     default: {
@@ -84,9 +88,9 @@ export class CardService {
                 }
             }
         }
-        console.log(doubles);
+        //console.log(doubles);
         //console.log(win);
         //console.log(CardService.sumall(win));
-        return CardService.sumall(win);
+        return {'win': CardService.sumall(win), 'active': active};
     }
 }

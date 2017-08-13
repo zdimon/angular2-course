@@ -4,11 +4,17 @@ import { Card } from './Card';
 
 @Component({
     selector: 'card',
-    template: ` <div class="card back" *ngIf="card.isHidden">*</div>
-                <div *ngIf="!card.isHidden" class="card rank-{{card.name}} {{card.faceName }}">
-                <span class="rank">{{card.name}}</span>
-                <span class="suit" [innerHTML]="card.faceCSS"></span>
-                </div>`
+    template: ` <div class="card_cell">
+                    <div *ngIf="card" [ngClass]="{'isHighlighted': card.isHighlighted}">
+                        
+                        <div class="card back" *ngIf="card.isHidden">*</div>
+                        <div *ngIf="!card.isHidden"  class="card rank-{{card.name}} {{card.faceName }}">
+                            <span class="rank">{{card.name}}</span>
+                            <span class="suit" [innerHTML]="card.faceCSS"></span>
+                        </div>
+                    </div>
+                </div>`,
+    styleUrls: ['./game.component.css']
     
 })
 export class CardComponent implements OnInit {

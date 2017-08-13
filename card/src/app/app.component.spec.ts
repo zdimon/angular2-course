@@ -3,7 +3,7 @@ import { TestBed, async } from '@angular/core/testing';
 
 import { AppComponent } from './app.component';
 import { GameComponent } from './game/game.component';
-
+import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
 
 
 
@@ -13,8 +13,9 @@ describe('AppComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         AppComponent,
-        GameComponent
+        GameComponent,
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   }));
 
