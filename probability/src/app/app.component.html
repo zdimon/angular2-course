@@ -49,11 +49,7 @@
       <h3> Текущая итерация: {{current}}  </h3>
       <h3> Угадано: {{ win }}</h3>
       <h3> Неугадано: {{ loss }}</h3>
-      <div class="playingCards simpleCards">
-        <div *ngFor='let key of ammount | demoNumber' style="float: left; margin: 1px">
-          <card [number]="numbers[key]"></card>
-        </div>
-      </div>
+      
     </div>
 
   </div>
