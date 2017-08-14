@@ -32,22 +32,26 @@
         </div>
         <div class="form-check">
           <label class="form-check-label">
-            <input type="checkbox" class="form-check-input" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+            <input type="checkbox" class="form-check-input" [(ngModel)]="ischange" name="ischange">
             Менять выбор?
           </label>
         </div>
-        <button type="submit" class="btn btn-primary">Поехали</button>
+        <button type="submit" class="btn btn-primary" (click)="start()">Поехали</button>
+
+        <button type="submit" class="btn btn-primary" (click)="test()">Test</button>
+
       </form>
     </div>
     <div class="col-md-6">
       <h3> Всего:  {{total}}</h3>
       <h3> Кол-во карт:  {{ammount}}</h3>
-      <h3> Текущая итерация:</h3>
-      <h3> Угадано: </h3>
-      <h3> Неугадано: </h3>
+      <h3> Меняется выбор?:  {{ischange}}</h3>
+      <h3> Текущая итерация: {{current}}  </h3>
+      <h3> Угадано: {{ win }}</h3>
+      <h3> Неугадано: {{ loss }}</h3>
       <div class="playingCards simpleCards">
         <div *ngFor='let key of ammount | demoNumber' style="float: left; margin: 1px">
-          <div class="card back">*</div>
+          <card [number]="numbers[key]"></card>
         </div>
       </div>
     </div>
