@@ -1,5 +1,7 @@
-import { Component, OnInit, Input, Output, EventEmitter, HostListener } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, HostListener, Inject } from '@angular/core';
 import { Card } from './Card';
+import { JQ_TOKEN } from '../jquery.service';
+import { ToastrService } from '../toatr.service';
 
 
 @Component({
@@ -21,10 +23,11 @@ export class CardComponent implements OnInit {
     @Input() card: Card
     @Output() eventClick = new EventEmitter();
 
-    constructor() { }
+    constructor(@Inject(JQ_TOKEN) private $: any, public toastr: ToastrService) { }
 
     ngOnInit() {  
-
+       console.log(this.$(this));
+       this.toastr.alert('sss','ddddd');
     }
 
     @HostListener('click', ['$event.target']) flipOver(crd){

@@ -6,9 +6,10 @@ import { AppComponent } from './app.component';
 import { RemoveQuotes } from './game/game.pipes';
 import { CardService } from './game/service';
 
+import { JQ_TOKEN, JQUERY_PROVIDER } from './jquery.service';
+import { ToastrService } from './toatr.service';
 
-
-
+ 
 @NgModule({
   declarations: [
     AppComponent,
@@ -19,7 +20,11 @@ import { CardService } from './game/service';
   imports: [
     BrowserModule
   ],
-  providers: [CardService],
+  providers: [
+    CardService,
+    ToastrService,
+    JQUERY_PROVIDER
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
