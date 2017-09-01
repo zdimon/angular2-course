@@ -8,7 +8,7 @@ import { CardService } from './game/service';
 
 import { JQ_TOKEN, JQUERY_PROVIDER } from './jquery.service';
 import { ToastrService } from './toatr.service';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
  
 @NgModule({
   declarations: [
@@ -18,7 +18,8 @@ import { ToastrService } from './toatr.service';
     RemoveQuotes
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    BrowserAnimationsModule
   ],
   providers: [
     CardService,

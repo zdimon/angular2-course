@@ -5,16 +5,19 @@ export class Card{
     faceName: string;
     rate: number;
     image: string;
-    isHidden: boolean;
+    private _isHidden:boolean;
     isHighlighted: boolean;
     id: string;
+    state: string;
 
     constructor(name: string, face: string, rate: number){
-        this.isHidden = false;
+        
         this.isHighlighted = false;
         this.name = name;
         this.face = face;
         this.rate = rate;
+        this.isHidden = false;
+        
         this.image = 'assets/images/'+this.face+'_'+this.rate+'.svg'
         this.id = `#{this.face}-#{this.name}`
         switch (this.face) {
@@ -45,6 +48,20 @@ export class Card{
             }
         }
     }
+
+    set isHidden(ish: boolean) {
+        this._isHidden = ish;
+        if(this._isHidden){
+            this.state = 'open';
+        }else{
+            this.state = 'close';
+        }
+    }
+
+    get isHidden():boolean {
+        return this._isHidden;
+    }
+
     public show(){
         return this.image;      
     }

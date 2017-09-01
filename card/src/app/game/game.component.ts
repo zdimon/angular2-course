@@ -43,6 +43,9 @@ export class GameComponent implements OnInit {
 
   getCards(num: number){
     this.current_set = this.current_deck.get(6);
+    this.current_set.forEach(card=>{
+      card.isHidden = false;
+    });
   }
 
   shuffle(){
